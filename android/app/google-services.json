@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1017698529430",
+    "project_id": "qrforcovid-d6d12",
+    "storage_bucket": "qrforcovid-d6d12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017698529430:android:f29bcbe4b55357a8d752b7",
+        "android_client_info": {
+          "package_name": "com.example.qrcodescannerforcovidlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017698529430-s2rn6dc98ufi35jqv5enpd6ion3j0sd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhE2-O6WExI2umViNiAhBWrS8IdfQwEoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017698529430-s2rn6dc98ufi35jqv5enpd6ion3j0sd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
