@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcodescannerforcovidlist/screens/login/login.dart';
+import 'package:qrcodescannerforcovidlist/screens/register/register.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -15,10 +16,10 @@ class LandingPage extends StatelessWidget {
             child: Image.asset("assets/logo.jpg"),
           ),
           Text(
-            "I'm ",
+            "Welcome",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 28,
             ),
           ),
           Padding(
@@ -29,7 +30,7 @@ class LandingPage extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => Login()));
               },
               child: Text(
-                "Customer",
+                "Sign In",
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -39,10 +40,10 @@ class LandingPage extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Login()));
+                    MaterialPageRoute(builder: (context) => Register()));
               },
               child: Text(
-                "Merchant",
+                "SignUp",
                 style: TextStyle(fontSize: 20),
               ),
             ),

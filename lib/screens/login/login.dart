@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcodescannerforcovidlist/screens/home/home.dart';
 import 'package:qrcodescannerforcovidlist/screens/register/register.dart';
+import 'package:qrcodescannerforcovidlist/services/authentication.dart';
 import 'package:qrcodescannerforcovidlist/widgets/container.dart';
 
 class Login extends StatefulWidget {
@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -71,7 +71,8 @@ class LoginState extends State<Login> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    _signIn();
+                    _signIn(_emailController.text.trim(),
+                        _passwordController.text.trim(), context);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 80.0),
@@ -87,7 +88,7 @@ class LoginState extends State<Login> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => CusRegister()));
+                        MaterialPageRoute(builder: (context) => Register()));
                   },
                   //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   child: Text(
@@ -102,14 +103,21 @@ class LoginState extends State<Login> {
     ));
   }
 
-  void _signIn() async {
+  void _signIn(String email, String password, BuildContext context) async {
     try {
-      final User? user = (await _auth.signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text))
-          .user;
-
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+      String? _returnString =
+          await AuthService().signIn(email: email, password: password);
+      if (_returnString == "success") {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_returnString!),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     } catch (e) {
       print(e);
     }

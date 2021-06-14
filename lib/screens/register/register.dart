@@ -1,23 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcodescannerforcovidlist/screens/home/home.dart';
+import 'package:qrcodescannerforcovidlist/services/authentication.dart';
 import 'package:qrcodescannerforcovidlist/widgets/container.dart';
 
-class CusRegister extends StatefulWidget {
-  const CusRegister({Key? key}) : super(key: key);
-
+class Register extends StatefulWidget {
   @override
-  _CusRegisterState createState() => _CusRegisterState();
+  RegisterState createState() => RegisterState();
 }
 
-class _CusRegisterState extends State<CusRegister> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class RegisterState extends State<Register> {
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController _fullNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
-  String dropdownValue = 'Customer';
+  // String dropdownValue = 'Customer';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,22 +49,22 @@ class _CusRegisterState extends State<CusRegister> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_downward_outlined),
-                    iconSize: 20,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>['Customer', 'Merchant'].map((String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
+                  // DropdownButton<String>(
+                  //   value: dropdownValue,
+                  //   icon: Icon(Icons.arrow_downward_outlined),
+                  //   iconSize: 20,
+                  //   onChanged: (String? newValue) {
+                  //     setState(() {
+                  //       dropdownValue = newValue!;
+                  //     });
+                  //   },
+                  //   items: <String>['Customer', 'Merchant'].map((String value) {
+                  //     return DropdownMenuItem(
+                  //       value: value,
+                  //       child: Text(value),
+                  //     );
+                  //   }).toList(),
+                  // ),
                   TextFormField(
                     controller: _fullNameController,
                     decoration: InputDecoration(
@@ -123,7 +121,8 @@ class _CusRegisterState extends State<CusRegister> {
                     onPressed: () {
                       if (_passwordController.text ==
                           _confirmPasswordController.text) {
-                        _registerWithEmailandPassword();
+                        _signupUser(_emailController.text.trim(),
+                            _passwordController.text.trim(), context);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -153,17 +152,23 @@ class _CusRegisterState extends State<CusRegister> {
     );
   }
 
-  void _registerWithEmailandPassword() async {
-    final User? user = (await _auth.createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim()))
-        .user;
-
-    if (user != null) {
-      await user.updateDisplayName(_fullNameController.text);
-      final user1 = _auth.currentUser;
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen(user: user1)));
+  void _signupUser(String email, String password, BuildContext context) async {
+    try {
+      String? _returnString =
+          await AuthService().signUp(email: email, password: password);
+      if (_returnString == "success") {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_returnString!),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }
