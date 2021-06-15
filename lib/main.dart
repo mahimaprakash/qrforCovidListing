@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:qrcodescannerforcovidlist/screens/home/home.dart';
+import 'package:qrcodescannerforcovidlist/screens/home/homewrapper.dart';
 import 'package:qrcodescannerforcovidlist/screens/landing/landing.dart';
-import 'package:qrcodescannerforcovidlist/services/authentication.dart';
+import 'package:qrcodescannerforcovidlist/services/authService.dart';
 import 'package:qrcodescannerforcovidlist/utils/theme.dart';
+import 'package:qrcodescannerforcovidlist/widgets/provider_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,22 +35,9 @@ class HomeController extends StatelessWidget {
         builder: (context, AsyncSnapshot<String?> snap) {
           if (snap.connectionState == ConnectionState.active) {
             final bool signedIn = snap.hasData;
-            return signedIn ? HomeScreen() : LandingPage();
+            return signedIn ? HomeWrapper() : LandingPage();
           }
           return CircularProgressIndicator();
         });
   }
-}
-
-class Provider extends InheritedWidget {
-  final AuthService auth;
-  Provider({Key? key, required Widget child, required this.auth})
-      : super(key: key, child: child);
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    return true;
-  }
-
-  static Provider of(BuildContext context) =>
-      (context.dependOnInheritedWidgetOfExactType<Provider>() as Provider);
 }

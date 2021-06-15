@@ -6,14 +6,17 @@ class QrGenerate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          PrettyQr(
-            data: "ABC Shop",
-            size: 290.0,
-            roundEdges: true,
+          Center(
+            child: PrettyQr(
+              data: "ABC Shop",
+              size: MediaQuery.of(context).size.width * 0.8,
+              roundEdges: true,
+            ),
           ),
         ],
       ),

@@ -38,6 +38,7 @@ android {
         applicationId "com.example.qrcodescannerforcovidlist"
         minSdkVersion 21
         targetSdkVersion 30
+        //multiDexVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

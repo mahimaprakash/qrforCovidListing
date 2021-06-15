@@ -1,59 +1,42 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:qrcodescannerforcovidlist/screens/home/profile.dart';
-import 'package:qrcodescannerforcovidlist/screens/home/qrgenerate.dart';
-import 'package:qrcodescannerforcovidlist/screens/home/recent.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcodescannerforcovidlist/screens/home/qrscanner.dart';
 
-class HomeScreen extends StatefulWidget {
-  //final User? user;
-
+class Home extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+class _HomeState extends State<Home> {
+  final db = FirebaseFirestore.instance;
 
-  int _currentIndex = 0;
-  final List<Widget> _children = [
-    QrGenerate(),
-    Recent(),
-    Profile(),
-  ];
+  // Future<String> getRole() async {
+  //   return await db.collection("user").doc(_auth.uid);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("QR for Covid"),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _onTabTapped,
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: "Home",
+    return Container(
+      alignment: Alignment.center,
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => QrScanPage(),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          child: Text(
+            "Scan QR",
+            style: TextStyle(fontSize: 25),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: "Recent",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
-            label: "Profile",
-          )
-        ],
+        ),
       ),
     );
-  }
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 }

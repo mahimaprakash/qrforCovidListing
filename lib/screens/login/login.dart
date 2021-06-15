@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qrcodescannerforcovidlist/screens/home/home.dart';
+import 'package:qrcodescannerforcovidlist/screens/home/homewrapper.dart';
 import 'package:qrcodescannerforcovidlist/screens/register/register.dart';
-import 'package:qrcodescannerforcovidlist/services/authentication.dart';
+import 'package:qrcodescannerforcovidlist/services/authService.dart';
 import 'package:qrcodescannerforcovidlist/widgets/container.dart';
 
 class Login extends StatefulWidget {
@@ -109,7 +109,7 @@ class LoginState extends State<Login> {
           await AuthService().signIn(email: email, password: password);
       if (_returnString == "success") {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
+            MaterialPageRoute(builder: (context) => HomeWrapper()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
