@@ -33,14 +33,17 @@ class _HomeWrapperState extends State<HomeWrapper> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
+            activeIcon: Icon(Icons.home_sharp),
             icon: Icon(Icons.home_outlined),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
+            activeIcon: Icon(Icons.history_sharp),
+            icon: Icon(Icons.history_rounded),
             label: "Recent",
           ),
           BottomNavigationBarItem(
+            activeIcon: Icon(Icons.person_sharp),
             icon: Icon(Icons.person_outlined),
             label: "Profile",
           )

@@ -10,7 +10,7 @@ class QrScanPage extends StatefulWidget {
 
 class _QrScanPageState extends State<QrScanPage> {
   final qrKey = GlobalKey(debugLabel: 'Qr');
-  Barcode? barcode;
+  Barcode? result;
   QRViewController? controller;
 
   @override
@@ -36,9 +36,37 @@ class _QrScanPageState extends State<QrScanPage> {
       body: SafeArea(
         child: Container(
           alignment: Alignment.center,
-          child: buildQrView(context),
+          child: (result != null) ? buildResult() : buildQrView(context),
         ),
       ),
+    );
+  }
+
+  Widget buildResult() {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: Center(
+        child: Text("Success"),
+      ),
+      content: Text(
+          "Your visit to ${result!.code} has been saved.\n\nEnjoy your day!"),
+      actions: <Widget>[
+        Center(
+          child: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Ok",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -60,7 +88,7 @@ class _QrScanPageState extends State<QrScanPage> {
     });
     controller.scannedDataStream.listen((barcode) {
       setState(() {
-        this.barcode = barcode;
+        result = barcode;
       });
     });
   }
